@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.yfs.springboot.quartz.QuartzAnnotationConfiguration

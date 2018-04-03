@@ -1,0 +1,28 @@
+# compile file
+*.class
+target/
+ueditor-upload/
+uploadfile/
+erp_uploadfile/
+Permanent_Data/
+
+# log file
+*.log
+*.0
+*.tmp
+logs/
+
+# Eclipse project files
+.classpath
+.project
+.settings/
+.externalToolBuilders/
+
+# Package Files #
+*.ear
+
+# Other
+*.bak
+.vscode/
+apidocs/
+jmxmon.jvm.context.json
