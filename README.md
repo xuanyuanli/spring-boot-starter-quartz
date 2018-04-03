@@ -11,14 +11,17 @@ Quartz的集群有赖于数据库的支持，所以这里我们需要一个专�
 这里要注意一下，这个建表的sql文件不是每个版本都适用的，这里只适用于quartz的2.2.3版本。如果你要换版本，去官网下载对应版本的quartz，里面有相应的sql。      
 建完库之后，在使用这个Starter的时候，配置文件中需要有这些属性：    
 ```
+#是否启用集群模式
+quartz.cluster=true
+#计划任务实例名称
 quartz.scheduler.instanceName=
 quartz.datasource.driver-class-name=
 quartz.datasource.url=
 quartz.datasource.username=
 quartz.datasource.password=
 quartz.datasource.maxConnections=
-```
-分别是quartz的实例名以及一些数据库配置。    
+```  
+下面是一些数据库配置。      
 
 # @QuartzScheduled注解
 @QuartzScheduled和@Scheduled使用起来比较相似，注解到方法上即可。     
@@ -31,5 +34,3 @@ quartz.datasource.maxConnections=
     }
 ```
 
-# 待完成
-- 可灵活配置是否使用集群模式

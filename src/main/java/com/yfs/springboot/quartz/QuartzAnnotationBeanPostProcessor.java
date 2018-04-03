@@ -50,6 +50,9 @@ public class QuartzAnnotationBeanPostProcessor implements BeanPostProcessor, App
     @Value("${quartz.datasource.maxConnections:10}")
     private String myDSMaxConnections;
 
+    @Value("${quartz.cluster:false}")
+    private boolean cluster;
+
     private List<Trigger> triggers = new ArrayList<Trigger>();
 
     private ConfigurableApplicationContext applicationContext;
@@ -133,23 +136,25 @@ public class QuartzAnnotationBeanPostProcessor implements BeanPostProcessor, App
         prop.put("org.quartz.scheduler.instanceId", "AUTO");
         prop.put("org.quartz.scheduler.skipUpdateCheck", "true");
 
-        prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
-        prop.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
-        prop.put("org.quartz.jobStore.dataSource", "myDS");
-        prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
-        prop.put("org.quartz.jobStore.isClustered", "true");
-        prop.put("org.quartz.jobStore.useProperties", "false");
+        if (cluster) {
+            prop.put("org.quartz.jobStore.class", "org.quartz.impl.jdbcjobstore.JobStoreTX");
+            prop.put("org.quartz.jobStore.driverDelegateClass", "org.quartz.impl.jdbcjobstore.StdJDBCDelegate");
+            prop.put("org.quartz.jobStore.dataSource", "myDS");
+            prop.put("org.quartz.jobStore.tablePrefix", "QRTZ_");
+            prop.put("org.quartz.jobStore.isClustered", "true");
+            prop.put("org.quartz.jobStore.useProperties", "false");
 
-        prop.put("org.quartz.jobStore.clusterCheckinInterval", "20000");
-        prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
-        prop.put("org.quartz.jobStore.misfireThreshold", "120000");
+            prop.put("org.quartz.jobStore.clusterCheckinInterval", "20000");
+            prop.put("org.quartz.jobStore.maxMisfiresToHandleAtATime", "1");
+            prop.put("org.quartz.jobStore.misfireThreshold", "120000");
 
-        prop.put("org.quartz.dataSource.myDS.driver", myDSDriver);
-        prop.put("org.quartz.dataSource.myDS.URL", myDSURL);
-        prop.put("org.quartz.dataSource.myDS.user", myDSUser);
-        prop.put("org.quartz.dataSource.myDS.password", myDSPassword);
-        prop.put("org.quartz.dataSource.myDS.maxConnections", myDSMaxConnections);
-        prop.put("org.quartz.dataSource.myDS.validationQuery", "select 0");
+            prop.put("org.quartz.dataSource.myDS.driver", myDSDriver);
+            prop.put("org.quartz.dataSource.myDS.URL", myDSURL);
+            prop.put("org.quartz.dataSource.myDS.user", myDSUser);
+            prop.put("org.quartz.dataSource.myDS.password", myDSPassword);
+            prop.put("org.quartz.dataSource.myDS.maxConnections", myDSMaxConnections);
+            prop.put("org.quartz.dataSource.myDS.validationQuery", "select 0");
+        }
 
         prop.put("org.quartz.plugin.shutdownhook.class", "org.quartz.plugins.management.ShutdownHookPlugin");
         prop.put("org.quartz.plugin.shutdownhook.cleanShutdown", "true");
